@@ -42,6 +42,15 @@ function* fetchElements() {
   }
 }
 
+function* postElement(action) {
+  try {
+    yield axios.post('/api/elements', {name: action.payload});
+    yield put({type: 'FETCH_ELEMENTS'});
+  } catch (error) {
+    console.log('error adding element', error);
+  }
+}
+
 // this is the saga that will watch for actions, and decide which other saga to run.
 // This is kinda like a "store for sagas", but it checks the action types,
 // rather than leting each saga check every action type.
@@ -53,6 +62,8 @@ function* rootSaga() {
 
   // If we see an action "FETCH_ELEMENTS", run the fetchElements saga.
   yield takeLatest('FETCH_ELEMENTS', fetchElements);
+
+  yield takeLatest('ADD_ELEMENT', postElement);
 }
 
 // redux-saga is middleware that can not only read dispatched actions, it can also dispatch actions!?!?!

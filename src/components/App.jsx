@@ -18,21 +18,8 @@ function App() {
 
   const addElement = (event) => {
     event.preventDefault();
-
-    axios({
-      method: 'POST',
-      url: '/api/elements',
-      data: { 
-        name: newElement
-      }
-    })
-      .then((response) => {
-        getElements();
-        setNewElement('');
-      })
-      .catch(error => {
-        console.log('error with element get request', error);
-      });
+    dispatch({type: 'ADD_ELEMENT', payload: newElement});
+    setNewElement('');
   }
 
   return (
